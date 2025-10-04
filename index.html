@@ -11,52 +11,21 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Devicon for skill icons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/devicon.min.css">
 
-  <!-- Tailwind CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.4"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
-          colors: {
-            brand: { 500: '#6366f1', 600: '#5458ee', 700: '#4f46e5' }
-          },
-          boxShadow: { glow: '0 10px 30px -12px rgba(99, 102, 241, .45)' },
-          keyframes: {
-            float: { '0%,100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-10px)' } },
-            blob: {
-              '0%,100%': { transform: 'translate(0px,0px) scale(1)' },
-              '33%': { transform: 'translate(10px,-20px) scale(1.05)' },
-              '66%': { transform: 'translate(-15px,10px) scale(0.98)' }
-            },
-            shine: { '0%': { transform: 'translateX(-150%)' }, '100%': { transform: 'translateX(150%)' } },
-            fadeUp: { '0%': { opacity: 0, transform: 'translateY(18px) scale(.98)' }, '100%': { opacity: 1, transform: 'translateY(0) scale(1)' } },
-            marquee: { '0%': { transform: 'translateX(0)' }, '100%': { transform: 'translateX(-50%)' } }
-          },
-          animation: {
-            float: 'float 6s ease-in-out infinite',
-            blob: 'blob 18s ease-in-out infinite',
-            fadeUp: 'fadeUp .7s ease-out forwards',
-            marquee: 'marquee 28s linear infinite'
-          }
-        }
-      }
-    }
-  </script>
+  <!-- Correct Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
-    /* Smooth theme transitions + inputs */
-    body { transition: background-color .35s ease, color .35s ease; }
+    /* Base */
+    body { transition: background-color .35s ease, color .35s ease; font-family: Inter, system-ui, sans-serif; }
     section { min-height: 100vh; padding-top: 6rem; padding-bottom: 4rem; }
     .glass { background: rgba(255,255,255,0.08); backdrop-filter: blur(14px); border: 1px solid rgba(255,255,255,0.12); }
     .input { padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(148,163,184,.35); outline: none; background-color: transparent; width: 100%; transition: border-color .2s, box-shadow .2s; }
     .input:focus { border-color: #6366f1; box-shadow: 0 0 0 4px rgba(99,102,241,.15); }
     .active-link { color: #6366f1; font-weight: 600; }
 
-    /* Stronger light-mode texture (grid + paper grain + light vignette) */
+    /* Stronger light-mode texture (grid + paper grain + vignette) */
     .bg-grid-strong {
       background-image:
         radial-gradient(circle at 1px 1px, rgba(2,6,23,.12) 1.2px, transparent 0),
@@ -64,27 +33,40 @@
       background-size: 18px 18px, 18px 18px;
       background-position: 0 0, 9px 9px;
     }
-    /* Subtle SVG noise */
     .noise-overlay { mix-blend: multiply; }
-
-    /* Paper vignette (soft edges) */
     .paper-vignette {
       mask-image: radial-gradient(ellipse at center, black 60%, transparent 115%);
       -webkit-mask-image: radial-gradient(ellipse at center, black 60%, transparent 115%);
     }
 
-    /* Cards & reveals */
-    .card-tilt { transform-style: preserve-3d; transform: perspective(900px) rotateX(0) rotateY(0); transition: transform .2s ease; }
-    .reveal { opacity: 0; transform: translateY(18px) scale(.98); transition: opacity .6s ease, transform .6s ease; }
-    .reveal.show { opacity: 1; transform: translateY(0) scale(1); }
+    /* Animations as plain CSS */
+    @keyframes float { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-10px) } }
+    .animate-float { animation: float 6s ease-in-out infinite; }
 
+    @keyframes blob {
+      0%,100% { transform: translate(0,0) scale(1) }
+      33% { transform: translate(10px,-20px) scale(1.05) }
+      66% { transform: translate(-15px,10px) scale(0.98) }
+    }
+    .animate-blob { animation: blob 18s ease-in-out infinite; }
+
+    @keyframes shimmer { 0% { background-position: 0% 50% } 100% { background-position: 200% 50% } }
     .btn-shimmer {
       background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899, #6366f1);
       background-size: 200% 100%;
       color: white;
       animation: shimmer 3s linear infinite;
     }
-    @keyframes shimmer { 0% { background-position: 0% 50% } 100% { background-position: 200% 50% } }
+
+    @keyframes shine { from { transform: translateX(-150%) } to { transform: translateX(150%) } }
+
+    @keyframes marquee { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+    .animate-marquee { animation: marquee 28s linear infinite; }
+
+    /* Cards & reveals */
+    .card-tilt { transform-style: preserve-3d; transform: perspective(900px) rotateX(0) rotateY(0); transition: transform .2s ease; }
+    .reveal { opacity: 0; transform: translateY(18px) scale(.98); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.show { opacity: 1; transform: translateY(0) scale(1); }
 
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
@@ -93,10 +75,10 @@
 </head>
 
 <body class="bg-white text-slate-900 dark:bg-[#0b1020] dark:text-white antialiased selection:bg-indigo-500/20 selection:text-indigo-600 dark:selection:text-indigo-300">
-  <!-- Stronger textured background for LIGHT mode -->
+  <!-- Textured background for LIGHT mode -->
   <div class="fixed inset-0 -z-30 bg-grid-strong opacity-[.9]"></div>
 
-  <!-- Paper grain + vignette (both modes; lighter on dark) -->
+  <!-- Paper grain + vignette -->
   <svg class="fixed inset-0 -z-20 pointer-events-none opacity-[.12] dark:opacity-[.06] noise-overlay paper-vignette" xmlns="http://www.w3.org/2000/svg">
     <filter id="noiseFilter">
       <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>
@@ -107,7 +89,7 @@
   <!-- Soft gradient blobs -->
   <div class="pointer-events-none fixed inset-0 -z-10 [mask-image:radial-gradient(ellipse_at_center,black,transparent_70%)]">
     <div class="absolute -top-24 -left-24 h-[36rem] w-[36rem] rounded-full blur-3xl opacity-25 dark:opacity-25 bg-gradient-to-tr from-indigo-500 via-violet-500 to-fuchsia-500 animate-blob"></div>
-    <div class="absolute top-40 -right-24 h-[28rem] w-[28rem] rounded-full blur-3xl opacity-20 dark:opacity-20 bg-gradient-to-tr from-sky-400 via-cyan-400 to-emerald-400 animate-blob [animation-delay:4s]"></div>
+    <div class="absolute top-40 -right-24 h-[28rem] w-[28rem] rounded-full blur-3xl opacity-20 dark:opacity-20 bg-gradient-to-tr from-sky-400 via-cyan-400 to-emerald-400 animate-blob" style="animation-delay:4s"></div>
   </div>
 
   <!-- Scroll progress bar -->
@@ -120,7 +102,7 @@
     <div class="max-w-6xl mx-auto flex justify-between items-center px-4 md:px-6 py-3">
       <a href="#home" class="flex items-center gap-3 group">
         <!-- Your photo as logo -->
-        <img src="images/rohit-avatar.jpg" alt="Logo" class="w-9 h-9 rounded-full ring-2 ring-indigo-500/15 object-cover">
+        <img src="images/rohit-avatar.jpg" alt="Avatar logo" class="w-9 h-9 rounded-full ring-2 ring-indigo-500/15 object-cover">
         <span class="font-extrabold text-xl bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent group-hover:opacity-80 transition-opacity">Rohit Bedse</span>
       </a>
 
@@ -186,7 +168,7 @@
     <div class="grid md:grid-cols-[320px,1fr] gap-8 items-center">
       <div class="relative mx-auto">
         <div class="absolute -inset-1 rounded-3xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 blur opacity-30 animate-float"></div>
-        <img src="images/rohit-avatar.jpg" alt="Rohit photo" class="relative rounded-3xl w-[280px] h-[280px] object-cover ring-4 ring-white/60 dark:ring-white/10 shadow-xl">
+        <img src="images/rohit-avatar.jpg" alt="Profile photo" class="relative rounded-3xl w-[280px] h-[280px] object-cover ring-4 ring-white/60 dark:ring-white/10 shadow-xl">
       </div>
       <div>
         <h2 class="text-3xl md:text-4xl font-bold mb-3">About me</h2>
@@ -228,7 +210,7 @@
         <div class="flex items-center gap-2 px-4"><i class="devicon-googlecloud-plain colored text-2xl"></i><span>GCP</span></div>
         <div class="flex items-center gap-2 px-4"><i class="devicon-git-plain colored text-2xl"></i><span>Git</span></div>
 
-        <!-- duplicate for seamless scroll -->
+        <!-- duplicate for seamless loop -->
         <div class="flex items-center gap-2 px-4"><i class="devicon-python-plain colored text-2xl"></i><span>Python</span></div>
         <div class="flex items-center gap-2 px-4"><i class="devicon-pytorch-original colored text-2xl"></i><span>PyTorch</span></div>
         <div class="flex items-center gap-2 px-4"><i class="devicon-tensorflow-original colored text-2xl"></i><span>TensorFlow</span></div>
@@ -245,7 +227,6 @@
 
     <!-- Grid of badges -->
     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
-      <!-- Each badge -->
       <div class="p-4 rounded-xl border border-slate-200 dark:border-white/10 bg-white/70 dark:bg-white/5 hover:-translate-y-1 hover:shadow-glow transition-all reveal">
         <div class="flex items-center gap-3">
           <span class="text-indigo-500">🧠</span>
@@ -294,7 +275,7 @@
       <!-- Project card 1 -->
       <article class="group p-5 rounded-2xl bg-white/70 dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:shadow-glow transition-all hover:-translate-y-1 card-tilt reveal">
         <div class="relative aspect-[16/10] overflow-hidden rounded-xl border border-slate-200/70 dark:border-white/10">
-          <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=60" alt="Intelligent PDF QA" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+          <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=60" alt="Project preview" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
           <span class="pointer-events-none absolute inset-0 [background:linear-gradient(120deg,transparent_0%,rgba(255,255,255,.5)_50%,transparent_100%)] translate-x-[-150%] group-hover:animate-[shine_1.2s_ease]"></span>
         </div>
         <div class="text-left mt-4">
@@ -318,7 +299,7 @@
       <!-- Project card 2 -->
       <article class="group p-5 rounded-2xl bg-white/70 dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:shadow-glow transition-all hover:-translate-y-1 card-tilt reveal">
         <div class="relative aspect-[16/10] overflow-hidden rounded-xl border border-slate-200/70 dark:border-white/10">
-          <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=60" alt="Sentiment Analyzer" class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105 group-hover:saturate-125">
+          <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=60" alt="Project preview" class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105 group-hover:saturate-125">
           <span class="pointer-events-none absolute inset-0 [background:linear-gradient(120deg,transparent_0%,rgba(255,255,255,.5)_50%,transparent_100%)] translate-x-[-150%] group-hover:animate-[shine_1.2s_ease]"></span>
         </div>
         <div class="text-left mt-4">
@@ -342,7 +323,7 @@
       <!-- Project card 3 -->
       <article class="group p-5 rounded-2xl bg-white/70 dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:shadow-glow transition-all hover:-translate-y-1 card-tilt reveal">
         <div class="relative aspect-[16/10] overflow-hidden rounded-xl border border-slate-200/70 dark:border-white/10">
-          <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1200&q=60" alt="House Price Prediction" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+          <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1200&q=60" alt="Project preview" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
           <span class="pointer-events-none absolute inset-0 [background:linear-gradient(120deg,transparent_0%,rgba(255,255,255,.5)_50%,transparent_100%)] translate-x-[-150%] group-hover:animate-[shine_1.2s_ease]"></span>
         </div>
         <div class="text-left mt-4">
@@ -375,7 +356,7 @@
   <!-- Contact -->
   <section id="contact" class="px-6 max-w-xl mx-auto text-center scroll-mt-24">
     <h2 class="text-3xl md:text-4xl font-bold mb-6 reveal">Get in Touch</h2>
-    <form action="https://formsubmit.co/rbedse832@gmail.com" method="POST" class="flex flex-col gap-4 p-6 rounded-2xl bg-white/70 dark:bg-white/5 border border-slate-200 dark:border-white/10 reveal">
+    <form action="https://formsubmit.co/youremail@gmail.com" method="POST" class="flex flex-col gap-4 p-6 rounded-2xl bg-white/70 dark:bg-white/5 border border-slate-200 dark:border-white/10 reveal">
       <input type="text" name="name" placeholder="Your Name" class="input" required>
       <input type="email" name="email" placeholder="Your Email" class="input" required>
       <textarea name="message" placeholder="Your Message" rows="4" class="input" required></textarea>
