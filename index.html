@@ -10,8 +10,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
+  <!-- Devicon for skill icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+
   <!-- Tailwind CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.4"></script>
   <script>
     tailwind.config = {
       darkMode: 'class',
@@ -23,21 +26,21 @@
           },
           boxShadow: { glow: '0 10px 30px -12px rgba(99, 102, 241, .45)' },
           keyframes: {
-            float: { '0%,100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-12px)' } },
+            float: { '0%,100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-10px)' } },
             blob: {
               '0%,100%': { transform: 'translate(0px,0px) scale(1)' },
               '33%': { transform: 'translate(10px,-20px) scale(1.05)' },
               '66%': { transform: 'translate(-15px,10px) scale(0.98)' }
             },
-            fadeUp: { '0%': { opacity: 0, transform: 'translateY(18px) scale(.98)' }, '100%': { opacity: 1, transform: 'translateY(0) scale(1)' } },
             shine: { '0%': { transform: 'translateX(-150%)' }, '100%': { transform: 'translateX(150%)' } },
-            kenburns: { '0%': { transform: 'scale(1.02)' }, '100%': { transform: 'scale(1.08)' } }
+            fadeUp: { '0%': { opacity: 0, transform: 'translateY(18px) scale(.98)' }, '100%': { opacity: 1, transform: 'translateY(0) scale(1)' } },
+            marquee: { '0%': { transform: 'translateX(0)' }, '100%': { transform: 'translateX(-50%)' } }
           },
           animation: {
             float: 'float 6s ease-in-out infinite',
             blob: 'blob 18s ease-in-out infinite',
             fadeUp: 'fadeUp .7s ease-out forwards',
-            kenburns: 'kenburns 9s ease-in-out infinite alternate'
+            marquee: 'marquee 28s linear infinite'
           }
         }
       }
@@ -53,18 +56,24 @@
     .input:focus { border-color: #6366f1; box-shadow: 0 0 0 4px rgba(99,102,241,.15); }
     .active-link { color: #6366f1; font-weight: 600; }
 
-    /* Light-mode texture (grid + gentle noise) */
-    .bg-grid {
+    /* Stronger light-mode texture (grid + paper grain + light vignette) */
+    .bg-grid-strong {
       background-image:
-        radial-gradient(circle at 1px 1px, rgba(2,6,23,.08) 1px, transparent 0),
-        radial-gradient(circle at 1px 1px, rgba(2,6,23,.06) 1px, transparent 0);
-      background-size: 22px 22px, 22px 22px;
-      background-position: 0 0, 11px 11px;
+        radial-gradient(circle at 1px 1px, rgba(2,6,23,.12) 1.2px, transparent 0),
+        radial-gradient(circle at 1px 1px, rgba(2,6,23,.08) 1px, transparent 0);
+      background-size: 18px 18px, 18px 18px;
+      background-position: 0 0, 9px 9px;
     }
-    /* Subtle SVG noise overlay */
+    /* Subtle SVG noise */
     .noise-overlay { mix-blend: multiply; }
 
-    /* Project card helpers */
+    /* Paper vignette (soft edges) */
+    .paper-vignette {
+      mask-image: radial-gradient(ellipse at center, black 60%, transparent 115%);
+      -webkit-mask-image: radial-gradient(ellipse at center, black 60%, transparent 115%);
+    }
+
+    /* Cards & reveals */
     .card-tilt { transform-style: preserve-3d; transform: perspective(900px) rotateX(0) rotateY(0); transition: transform .2s ease; }
     .reveal { opacity: 0; transform: translateY(18px) scale(.98); transition: opacity .6s ease, transform .6s ease; }
     .reveal.show { opacity: 1; transform: translateY(0) scale(1); }
@@ -84,13 +93,13 @@
 </head>
 
 <body class="bg-white text-slate-900 dark:bg-[#0b1020] dark:text-white antialiased selection:bg-indigo-500/20 selection:text-indigo-600 dark:selection:text-indigo-300">
-  <!-- Textured background for LIGHT mode -->
-  <div class="fixed inset-0 -z-20 bg-grid opacity-[.7]"></div>
+  <!-- Stronger textured background for LIGHT mode -->
+  <div class="fixed inset-0 -z-30 bg-grid-strong opacity-[.9]"></div>
 
-  <!-- Subtle noise overlay (both modes, lighter on dark) -->
-  <svg class="fixed inset-0 -z-10 pointer-events-none opacity-[.06] dark:opacity-[.04] noise-overlay" xmlns="http://www.w3.org/2000/svg">
+  <!-- Paper grain + vignette (both modes; lighter on dark) -->
+  <svg class="fixed inset-0 -z-20 pointer-events-none opacity-[.12] dark:opacity-[.06] noise-overlay paper-vignette" xmlns="http://www.w3.org/2000/svg">
     <filter id="noiseFilter">
-      <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" stitchTiles="stitch"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>
     </filter>
     <rect width="100%" height="100%" filter="url(#noiseFilter)"></rect>
   </svg>
@@ -110,16 +119,15 @@
   <header class="fixed w-full top-0 left-0 z-50 bg-white/70 dark:bg-[#0f152b]/70 backdrop-blur-lg border-b border-slate-200/60 dark:border-white/10">
     <div class="max-w-6xl mx-auto flex justify-between items-center px-4 md:px-6 py-3">
       <a href="#home" class="flex items-center gap-3 group">
-        <!-- Your photo as the logo -->
-        <!-- Save as images/rohit-avatar.jpg or change src below -->
+        <!-- Your photo as logo -->
         <img src="images/rohit-avatar.jpg" alt="Logo" class="w-9 h-9 rounded-full ring-2 ring-indigo-500/15 object-cover">
-        <span class="font-extrabold text-xl bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent group-hover:opacity-80 transition-opacity">
-          Rohit Bedse
-        </span>
+        <span class="font-extrabold text-xl bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent group-hover:opacity-80 transition-opacity">Rohit Bedse</span>
       </a>
 
       <nav class="hidden md:flex items-center gap-6 font-medium">
         <a href="#home" class="nav-link relative hover:text-indigo-500 after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-0 after:bg-indigo-500 after:transition-all hover:after:w-full">Home</a>
+        <a href="#about" class="nav-link relative hover:text-indigo-500 after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-0 after:bg-indigo-500 after:transition-all hover:after:w-full">About</a>
+        <a href="#skills" class="nav-link relative hover:text-indigo-500 after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-0 after:bg-indigo-500 after:transition-all hover:after:w-full">Skills</a>
         <a href="#projects" class="nav-link relative hover:text-indigo-500 after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-0 after:bg-indigo-500 after:transition-all hover:after:w-full">Projects</a>
         <a href="#blog" class="nav-link relative hover:text-indigo-500 after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-0 after:bg-indigo-500 after:transition-all hover:after:w-full">Blog</a>
         <a href="#contact" class="nav-link relative hover:text-indigo-500 after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-0 after:bg-indigo-500 after:transition-all hover:after:w-full">Contact</a>
@@ -140,6 +148,8 @@
     <div id="mobile-menu" class="md:hidden hidden border-t border-slate-200/60 dark:border-white/10 bg-white/85 dark:bg-[#0f152b]/80 backdrop-blur-lg">
       <div class="px-6 py-4 grid gap-3">
         <a href="#home" class="nav-link block py-2 rounded-lg hover:bg-slate-200/60 dark:hover:bg-white/10">Home</a>
+        <a href="#about" class="nav-link block py-2 rounded-lg hover:bg-slate-200/60 dark:hover:bg-white/10">About</a>
+        <a href="#skills" class="nav-link block py-2 rounded-lg hover:bg-slate-200/60 dark:hover:bg-white/10">Skills</a>
         <a href="#projects" class="nav-link block py-2 rounded-lg hover:bg-slate-200/60 dark:hover:bg-white/10">Projects</a>
         <a href="#blog" class="nav-link block py-2 rounded-lg hover:bg-slate-200/60 dark:hover:bg-white/10">Blog</a>
         <a href="#contact" class="nav-link block py-2 rounded-lg hover:bg-slate-200/60 dark:hover:bg-white/10">Contact</a>
@@ -157,12 +167,8 @@
       <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-4">
         Hey, I'm <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-500">Rohit</span> 👋
       </h1>
-      <p class="text-lg md:text-xl opacity-90 mb-3">
-        <span class="opacity-80">Python Developer & Data Enthusiast</span> — building intelligent systems with AI and ML.
-      </p>
-      <p class="text-base text-slate-600 dark:text-slate-300 mb-8">
-        Crafting solutions with LLMs, RAG, and clean data pipelines.
-      </p>
+      <p class="text-lg md:text-xl opacity-90 mb-3">Python Developer & Data Enthusiast — building intelligent systems with AI and ML.</p>
+      <p class="text-base text-slate-600 dark:text-slate-300 mb-8">LLMs, RAG, and clean data pipelines that ship.</p>
 
       <div class="flex flex-wrap items-center justify-center gap-3">
         <a href="#projects" class="px-6 py-3 rounded-xl btn-shimmer shadow-glow hover:scale-[1.02] active:scale-[.99] transition-transform">View Projects</a>
@@ -175,7 +181,111 @@
     </div>
   </section>
 
-  <!-- Projects with images + animations -->
+  <!-- About -->
+  <section id="about" class="px-6 max-w-6xl mx-auto scroll-mt-24">
+    <div class="grid md:grid-cols-[320px,1fr] gap-8 items-center">
+      <div class="relative mx-auto">
+        <div class="absolute -inset-1 rounded-3xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 blur opacity-30 animate-float"></div>
+        <img src="images/rohit-avatar.jpg" alt="Rohit photo" class="relative rounded-3xl w-[280px] h-[280px] object-cover ring-4 ring-white/60 dark:ring-white/10 shadow-xl">
+      </div>
+      <div>
+        <h2 class="text-3xl md:text-4xl font-bold mb-3">About me</h2>
+        <p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-5">
+          I’m a Python developer focused on AI/ML, with a knack for turning messy data into useful products.
+          I enjoy working across the stack of embeddings, vector search, and model serving.
+        </p>
+        <ul class="grid sm:grid-cols-2 gap-3 text-sm">
+          <li class="flex items-center gap-2"><span class="text-indigo-500">✔</span> LLM apps with RAG (FAISS/LangChain)</li>
+          <li class="flex items-center gap-2"><span class="text-indigo-500">✔</span> Data wrangling, feature engineering, evaluation</li>
+          <li class="flex items-center gap-2"><span class="text-indigo-500">✔</span> FastAPI backends & Streamlit UIs</li>
+          <li class="flex items-center gap-2"><span class="text-indigo-500">✔</span> CI-friendly notebooks and clean repos</li>
+        </ul>
+        <div class="mt-6 flex gap-3">
+          <a href="#projects" class="px-5 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-500 transition-colors">See projects</a>
+          <a href="#" class="px-5 py-2 rounded-lg border border-slate-300 dark:border-white/10 hover:bg-slate-200/60 dark:hover:bg-white/10 transition-colors">Download résumé</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills" class="px-6 max-w-6xl mx-auto scroll-mt-24 text-center">
+    <h2 class="text-3xl md:text-4xl font-bold mb-3">Skills & Tech</h2>
+    <p class="max-w-2xl mx-auto text-slate-600 dark:text-slate-300 mb-8">Tools I use regularly.</p>
+
+    <!-- Marquee strip -->
+    <div class="relative overflow-hidden rounded-xl border border-slate-200 dark:border-white/10 bg-white/70 dark:bg-white/5">
+      <div class="flex gap-8 py-4 animate-marquee whitespace-nowrap">
+        <div class="flex items-center gap-2 px-4"><i class="devicon-python-plain colored text-2xl"></i><span>Python</span></div>
+        <div class="flex items-center gap-2 px-4"><i class="devicon-pytorch-original colored text-2xl"></i><span>PyTorch</span></div>
+        <div class="flex items-center gap-2 px-4"><i class="devicon-tensorflow-original colored text-2xl"></i><span>TensorFlow</span></div>
+        <div class="flex items-center gap-2 px-4"><i class="devicon-scikitlearn-plain colored text-2xl"></i><span>scikit-learn</span></div>
+        <div class="flex items-center gap-2 px-4"><i class="devicon-pandas-original colored text-2xl"></i><span>Pandas</span></div>
+        <div class="flex items-center gap-2 px-4"><i class="devicon-numpy-original colored text-2xl"></i><span>NumPy</span></div>
+        <div class="flex items-center gap-2 px-4"><i class="devicon-fastapi-plain colored text-2xl"></i><span>FastAPI</span></div>
+        <div class="flex items-center gap-2 px-4"><i class="devicon-docker-plain colored text-2xl"></i><span>Docker</span></div>
+        <div class="flex items-center gap-2 px-4"><i class="devicon-amazonwebservices-plain colored text-2xl"></i><span>AWS</span></div>
+        <div class="flex items-center gap-2 px-4"><i class="devicon-googlecloud-plain colored text-2xl"></i><span>GCP</span></div>
+        <div class="flex items-center gap-2 px-4"><i class="devicon-git-plain colored text-2xl"></i><span>Git</span></div>
+
+        <!-- duplicate for seamless scroll -->
+        <div class="flex items-center gap-2 px-4"><i class="devicon-python-plain colored text-2xl"></i><span>Python</span></div>
+        <div class="flex items-center gap-2 px-4"><i class="devicon-pytorch-original colored text-2xl"></i><span>PyTorch</span></div>
+        <div class="flex items-center gap-2 px-4"><i class="devicon-tensorflow-original colored text-2xl"></i><span>TensorFlow</span></div>
+        <div class="flex items-center gap-2 px-4"><i class="devicon-scikitlearn-plain colored text-2xl"></i><span>scikit-learn</span></div>
+        <div class="flex items-center gap-2 px-4"><i class="devicon-pandas-original colored text-2xl"></i><span>Pandas</span></div>
+        <div class="flex items-center gap-2 px-4"><i class="devicon-numpy-original colored text-2xl"></i><span>NumPy</span></div>
+        <div class="flex items-center gap-2 px-4"><i class="devicon-fastapi-plain colored text-2xl"></i><span>FastAPI</span></div>
+        <div class="flex items-center gap-2 px-4"><i class="devicon-docker-plain colored text-2xl"></i><span>Docker</span></div>
+        <div class="flex items-center gap-2 px-4"><i class="devicon-amazonwebservices-plain colored text-2xl"></i><span>AWS</span></div>
+        <div class="flex items-center gap-2 px-4"><i class="devicon-googlecloud-plain colored text-2xl"></i><span>GCP</span></div>
+        <div class="flex items-center gap-2 px-4"><i class="devicon-git-plain colored text-2xl"></i><span>Git</span></div>
+      </div>
+    </div>
+
+    <!-- Grid of badges -->
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
+      <!-- Each badge -->
+      <div class="p-4 rounded-xl border border-slate-200 dark:border-white/10 bg-white/70 dark:bg-white/5 hover:-translate-y-1 hover:shadow-glow transition-all reveal">
+        <div class="flex items-center gap-3">
+          <span class="text-indigo-500">🧠</span>
+          <div class="text-left">
+            <div class="font-semibold">LLMs & RAG</div>
+            <div class="text-sm text-slate-500 dark:text-slate-400">FAISS, LangChain, embeddings</div>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 rounded-xl border border-slate-200 dark:border-white/10 bg-white/70 dark:bg-white/5 hover:-translate-y-1 hover:shadow-glow transition-all reveal">
+        <div class="flex items-center gap-3">
+          <span class="text-emerald-500">⚙️</span>
+          <div class="text-left">
+            <div class="font-semibold">Modeling</div>
+            <div class="text-sm text-slate-500 dark:text-slate-400">sklearn, PyTorch, metrics</div>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 rounded-xl border border-slate-200 dark:border-white/10 bg-white/70 dark:bg-white/5 hover:-translate-y-1 hover:shadow-glow transition-all reveal">
+        <div class="flex items-center gap-3">
+          <span class="text-sky-500">🚀</span>
+          <div class="text-left">
+            <div class="font-semibold">APIs & Apps</div>
+            <div class="text-sm text-slate-500 dark:text-slate-400">FastAPI, Streamlit</div>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 rounded-xl border border-slate-200 dark:border-white/10 bg-white/70 dark:bg-white/5 hover:-translate-y-1 hover:shadow-glow transition-all reveal">
+        <div class="flex items-center gap-3">
+          <span class="text-rose-500">📦</span>
+          <div class="text-left">
+            <div class="font-semibold">Ops</div>
+            <div class="text-sm text-slate-500 dark:text-slate-400">Docker, Git, AWS/GCP</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
   <section id="projects" class="px-6 max-w-6xl mx-auto text-center scroll-mt-24">
     <h2 class="text-3xl md:text-4xl font-bold mb-3 reveal">My Projects</h2>
     <p class="max-w-2xl mx-auto text-slate-600 dark:text-slate-300 mb-10 reveal">Some highlights with animated previews.</p>
@@ -184,11 +294,8 @@
       <!-- Project card 1 -->
       <article class="group p-5 rounded-2xl bg-white/70 dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:shadow-glow transition-all hover:-translate-y-1 card-tilt reveal">
         <div class="relative aspect-[16/10] overflow-hidden rounded-xl border border-slate-200/70 dark:border-white/10">
-          <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=60" alt="Project preview" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-          <!-- Shine sweep -->
+          <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=60" alt="Intelligent PDF QA" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
           <span class="pointer-events-none absolute inset-0 [background:linear-gradient(120deg,transparent_0%,rgba(255,255,255,.5)_50%,transparent_100%)] translate-x-[-150%] group-hover:animate-[shine_1.2s_ease]"></span>
-          <!-- Gradient for text if needed -->
-          <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
         </div>
         <div class="text-left mt-4">
           <div class="flex items-center justify-between mb-1">
@@ -211,7 +318,7 @@
       <!-- Project card 2 -->
       <article class="group p-5 rounded-2xl bg-white/70 dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:shadow-glow transition-all hover:-translate-y-1 card-tilt reveal">
         <div class="relative aspect-[16/10] overflow-hidden rounded-xl border border-slate-200/70 dark:border-white/10">
-          <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=60" alt="Project preview" class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105 group-hover:saturate-125">
+          <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=60" alt="Sentiment Analyzer" class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105 group-hover:saturate-125">
           <span class="pointer-events-none absolute inset-0 [background:linear-gradient(120deg,transparent_0%,rgba(255,255,255,.5)_50%,transparent_100%)] translate-x-[-150%] group-hover:animate-[shine_1.2s_ease]"></span>
         </div>
         <div class="text-left mt-4">
@@ -235,7 +342,7 @@
       <!-- Project card 3 -->
       <article class="group p-5 rounded-2xl bg-white/70 dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:shadow-glow transition-all hover:-translate-y-1 card-tilt reveal">
         <div class="relative aspect-[16/10] overflow-hidden rounded-xl border border-slate-200/70 dark:border-white/10">
-          <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1200&q=60" alt="Project preview" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+          <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1200&q=60" alt="House Price Prediction" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
           <span class="pointer-events-none absolute inset-0 [background:linear-gradient(120deg,transparent_0%,rgba(255,255,255,.5)_50%,transparent_100%)] translate-x-[-150%] group-hover:animate-[shine_1.2s_ease]"></span>
         </div>
         <div class="text-left mt-4">
@@ -245,7 +352,7 @@
           </div>
           <p class="opacity-80">Regression model to predict housing prices using engineered features.</p>
           <div class="flex gap-2 mt-3 flex-wrap">
-            <span class="px-2 py-1 text-xs rounded-md bg-slate-100 dark:bg-white/10">Scikit-learn</span>
+            <span class="px-2 py-1 text-xs rounded-md bg-slate-100 dark:bg-white/10">scikit-learn</span>
             <span class="px-2 py-1 text-xs rounded-md bg-slate-100 dark:bg-white/10">Pandas</span>
             <span class="px-2 py-1 text-xs rounded-md bg-slate-100 dark:bg-white/10">NumPy</span>
           </div>
@@ -262,15 +369,13 @@
   <section id="blog" class="px-6 max-w-6xl mx-auto text-center scroll-mt-24">
     <h2 class="text-3xl md:text-4xl font-bold mb-3 reveal">Latest Blog Posts</h2>
     <p class="max-w-2xl mx-auto text-slate-600 dark:text-slate-300 mb-10 reveal">Things I’ve been writing.</p>
-    <div id="blog-container" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-      <!-- Injected via JS -->
-    </div>
+    <div id="blog-container" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8"></div>
   </section>
 
   <!-- Contact -->
   <section id="contact" class="px-6 max-w-xl mx-auto text-center scroll-mt-24">
     <h2 class="text-3xl md:text-4xl font-bold mb-6 reveal">Get in Touch</h2>
-    <form action="https://formsubmit.co/rbedse832@gmail.com" method="POST" class="flex flex-col gap-4 p-6 rounded-2xl bg-white/70 dark:bg-white/5 border border-slate-200 dark:border-white/10 reveal">
+    <form action="https://formsubmit.co/youremail@gmail.com" method="POST" class="flex flex-col gap-4 p-6 rounded-2xl bg-white/70 dark:bg-white/5 border border-slate-200 dark:border-white/10 reveal">
       <input type="text" name="name" placeholder="Your Name" class="input" required>
       <input type="email" name="email" placeholder="Your Email" class="input" required>
       <textarea name="message" placeholder="Your Message" rows="4" class="input" required></textarea>
