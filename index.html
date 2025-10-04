@@ -1,505 +1,133 @@
 <!DOCTYPE html>
-<html lang="en" data-theme>
+<html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Rohit Bedse - Python & Data Enthusiast</title>
-  <link rel="icon" type="image/x-icon" href="https://portfolio-demo-seven-lyart.vercel.app/_astro/pfp.D8qT6-56_1YJ8bJ.webp">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/feather-icons"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
-
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rohit Bedse | Portfolio</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.4/dist/tailwind.min.css" rel="stylesheet">
   <style>
-    :root{
-      --bg: #f8fafc;
-      --card: rgba(255,255,255,0.6);
-      --muted: #4b5563;
-      --text: #0f172a;
-      --accent-from: #6366f1;
-      --accent-to: #a855f7;
-      --glass-blur: 8px;
-      --logo-filter: none;
-    }
-    html.dark {
-      --bg: #0b1220;
-      --card: rgba(8,10,18,0.5);
-      --muted: #9ca3af;
-      --text: #e6eef8;
-      --accent-from: #6d28d9;
-      --accent-to: #8b5cf6;
-      --glass-blur: 10px;
-      --logo-filter: drop-shadow(0 6px 18px rgba(139,92,246,0.18));
-    }
-
-    /* General */
-    body {
-      font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background: var(--bg);
-      color: var(--text);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      transition: background .3s ease, color .3s ease;
-      scroll-behavior: smooth;
-    }
-
-    .gradient-text {
-      background: linear-gradient(90deg,var(--accent-from),var(--accent-to));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .glass {
-      background: linear-gradient(180deg, rgba(255,255,255,0.55), rgba(255,255,255,0.12));
-      backdrop-filter: blur(var(--glass-blur));
-      -webkit-backdrop-filter: blur(var(--glass-blur));
-    }
-    html.dark .glass {
-      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
-    }
-
-    .card-hover {
-      transition: transform .28s cubic-bezier(.2,.9,.2,1), box-shadow .28s;
-      will-change: transform;
-    }
-    .card-hover:hover {
-      transform: translateY(-8px) scale(1.01);
-      box-shadow: 0 25px 40px -12px rgba(0,0,0,0.45);
-    }
-
-    /* Neon buttons */
-    .neon {
-      background: linear-gradient(90deg,var(--accent-from),var(--accent-to));
-      color: white;
-      box-shadow: 0 6px 24px -8px rgba(99,102,241,0.45);
-      transition: transform .18s, box-shadow .18s;
-    }
-    .neon:hover { transform: translateY(-3px); box-shadow: 0 20px 50px -18px rgba(99,102,241,0.45); }
-
-    /* small utilities */
-    .muted { color: var(--muted); }
-    .logo-img { filter: var(--logo-filter); transition: filter .3s ease, transform .3s ease; }
-    .hidden-section { display: none; }
-
-    /* theme toggle */
-    .theme-toggle {
-      width: 42px; height: 42px; display:inline-flex; align-items:center; justify-content:center;
-      border-radius:10px;
-      border: 1px solid rgba(255,255,255,0.06);
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.005));
-      backdrop-filter: blur(6px);
-    }
-
-    /* toast */
-    .toast {
-      position: fixed; right:20px; bottom:20px; z-index:60;
-      padding:12px 18px; border-radius:12px; box-shadow: 0 12px 30px rgba(2,6,23,0.5);
-      background: linear-gradient(90deg,var(--accent-from),var(--accent-to));
-      color:white; display:none;
-    }
-
-    /* nav active link */
-    .nav-link.active { color: var(--text); border-bottom:2px solid; border-image: linear-gradient(90deg,var(--accent-from),var(--accent-to)) 1; padding-bottom:4px; }
-
-    /* small screens for multi-page show/hide */
-    @media (max-width: 768px) {
-      .desktop-only { display:none; }
-    }
+    body { transition: background-color 0.4s ease, color 0.4s ease; }
+    .glass { background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1); }
+    .input { padding: 10px 12px; border-radius: 8px; border: 1px solid #ccc; outline: none; background-color: transparent; width: 100%; }
+    .input:focus { border-color: #6366f1; }
+    section { min-height: 100vh; padding-top: 6rem; padding-bottom: 4rem; }
+    .active-link { color: #6366f1; font-weight: 600; }
   </style>
 </head>
-<body class="antialiased">
-  <!-- Vanta background container -->
-  <div id="vanta-bg" class="fixed inset-0 -z-20"></div>
+<body class="bg-white text-gray-900 dark:bg-[#0f172a] dark:text-white">
 
-  <!-- Toast -->
-  <div id="toast" class="toast">Message sent — thanks!</div>
+  <!-- 🌙 Navbar -->
+  <header class="fixed w-full top-0 left-0 z-50 bg-white/70 dark:bg-[#1e293b]/70 backdrop-blur-lg shadow-sm">
+    <div class="max-w-6xl mx-auto flex justify-between items-center px-6 py-4">
+      <a href="#home" class="flex items-center gap-2">
+        <img id="logo" src="https://cdn-icons-png.flaticon.com/512/190/190411.png" class="w-8 h-8" alt="Logo">
+        <span class="font-bold text-xl bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent">Rohit Bedse</span>
+      </a>
+      <nav class="hidden md:flex gap-6 font-medium">
+        <a href="#home" class="nav-link hover:text-indigo-500">Home</a>
+        <a href="#projects" class="nav-link hover:text-indigo-500">Projects</a>
+        <a href="#blog" class="nav-link hover:text-indigo-500">Blog</a>
+        <a href="#contact" class="nav-link hover:text-indigo-500">Contact</a>
+      </nav>
+      <button id="theme-toggle" class="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700">🌙</button>
+    </div>
+  </header>
 
-  <!-- NAV -->
-  <nav class="fixed w-full z-50 top-0 left-0">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16 py-2">
-        <div class="flex items-center gap-3">
-          <!-- light/dark logos stored as data attributes -->
-          <img id="logo" class="h-9 w-9 rounded-full logo-img" alt="logo"
-               src="https://portfolio-demo-seven-lyart.vercel.app/_astro/pfp.D8qT6-56_1YJ8bJ.webp"
-               data-light="https://portfolio-demo-seven-lyart.vercel.app/_astro/pfp.D8qT6-56_1YJ8bJ.webp"
-               data-dark="https://portfolio-demo-seven-lyart.vercel.app/_astro/pfp.D8qT6-56_1YJ8bJ.webp"/>
-          <span id="brand" class="font-semibold text-lg">Rohit Bedse</span>
-        </div>
+  <!-- 🏠 Home -->
+  <section id="home" class="flex flex-col items-center justify-center text-center px-6">
+    <h1 class="text-4xl md:text-6xl font-bold mb-4 mt-20">Hey, I'm <span class="text-indigo-500">Rohit</span> 👋</h1>
+    <p class="max-w-xl text-lg opacity-80 mb-6">Python Developer & Data Enthusiast passionate about AI, ML, and building intelligent systems.</p>
+    <a href="#projects" class="px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-xl shadow-lg hover:scale-105 transition-transform">View Projects</a>
+  </section>
 
-        <div class="hidden md:flex items-center space-x-4">
-          <a href="#home" class="nav-link px-3 py-2 text-sm font-medium muted">Home</a>
-          <a href="#about" class="nav-link px-3 py-2 text-sm font-medium muted">About</a>
-          <a href="#skills" class="nav-link px-3 py-2 text-sm font-medium muted">Skills</a>
-          <a href="#projects" class="nav-link px-3 py-2 text-sm font-medium muted">Projects</a>
-          <a href="#blog" class="nav-link px-3 py-2 text-sm font-medium muted">Blog</a>
-          <a href="#contact" class="px-3 py-2 text-sm font-medium neon rounded-md">Contact</a>
-          <button id="themeBtn" aria-label="Toggle theme" class="theme-toggle ml-2" title="Toggle theme">
-            <i id="themeIcon" data-feather="moon"></i>
-          </button>
-        </div>
-
-        <!-- mobile menu / theme -->
-        <div class="md:hidden flex items-center gap-2">
-          <button id="themeBtnMobile" class="theme-toggle" aria-label="Toggle theme"><i data-feather="moon"></i></button>
-          <button id="mobileOpen" class="p-2 rounded-md focus:outline-none" aria-label="Open menu"><i data-feather="menu"></i></button>
-        </div>
+  <!-- 💼 Projects -->
+  <section id="projects" class="px-6 max-w-6xl mx-auto text-center">
+    <h2 class="text-3xl font-bold mb-8">My Projects</h2>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div class="glass p-6 rounded-2xl hover:scale-[1.03] transition-transform">
+        <h3 class="text-xl font-semibold mb-2">Intelligent PDF QA System</h3>
+        <p class="opacity-80">Gemini LLM + FAISS + LangChain + Streamlit to answer queries from uploaded PDFs.</p>
+      </div>
+      <div class="glass p-6 rounded-2xl hover:scale-[1.03] transition-transform">
+        <h3 class="text-xl font-semibold mb-2">Sentiment Analyzer</h3>
+        <p class="opacity-80">Developed an NLP model to classify sentiments using transformer-based models.</p>
+      </div>
+      <div class="glass p-6 rounded-2xl hover:scale-[1.03] transition-transform">
+        <h3 class="text-xl font-semibold mb-2">Bengaluru House Price Prediction</h3>
+        <p class="opacity-80">Built an ML regression model to predict housing prices using multiple features.</p>
       </div>
     </div>
+  </section>
 
-    <!-- Mobile drawer -->
-    <div id="mobileDrawer" class="hidden md:hidden bg-transparent">
-      <div class="px-4 pb-4 space-y-2">
-        <a href="#home" class="block px-3 py-2 rounded-md">Home</a>
-        <a href="#about" class="block px-3 py-2 rounded-md">About</a>
-        <a href="#projects" class="block px-3 py-2 rounded-md">Projects</a>
-        <a href="#blog" class="block px-3 py-2 rounded-md">Blog</a>
-        <a href="#contact" class="block px-3 py-2 rounded-md neon text-center">Contact</a>
-      </div>
+  <!-- 📰 Blog -->
+  <section id="blog" class="px-6 max-w-5xl mx-auto text-center">
+    <h2 class="text-3xl font-bold mb-8">Latest Blog Posts</h2>
+    <div id="blog-container" class="grid sm:grid-cols-2 gap-8">
+      <!-- Blog posts inserted by JS -->
     </div>
-  </nav>
+  </section>
 
-  <!-- CONTENT: Use sections and show/hide by hash for multipage feeling -->
-  <main class="pt-28">
-    <!-- HERO / HOME -->
-    <section id="home" class="page-section px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto pb-20">
-      <div class="flex flex-col md:flex-row items-center gap-8">
-        <div class="md:w-1/2">
-          <h1 class="text-4xl md:text-5xl font-bold mb-3">
-            Hi, I'm <span class="gradient-text">Rohit</span>
-            <img src="https://portfolio-demo-seven-lyart.vercel.app/_astro/waving_hand.KOTu1fCO.png" alt="wave" class="inline h-10 w-10 ml-2 align-middle">
-          </h1>
-          <h2 class="text-2xl md:text-3xl font-semibold muted mb-6">Python & Data Enthusiast</h2>
-          <p class="text-lg muted mb-6 max-w-xl">Building innovative solutions with Python, Machine Learning, and Data Science — turning data into insights and products.</p>
-          <div class="flex gap-3">
-            <a href="#contact" class="px-5 py-3 neon rounded-md">Get in touch</a>
-            <a href="#projects" class="px-5 py-3 border border-gray-300 rounded-md muted">View projects</a>
-          </div>
+  <!-- 📬 Contact -->
+  <section id="contact" class="px-6 max-w-xl mx-auto text-center">
+    <h2 class="text-3xl font-bold mb-6">Get in Touch</h2>
+    <form action="https://formsubmit.co/youremail@gmail.com" method="POST" class="flex flex-col gap-4 glass p-6 rounded-2xl">
+      <input type="text" name="name" placeholder="Your Name" class="input" required>
+      <input type="email" name="email" placeholder="Your Email" class="input" required>
+      <textarea name="message" placeholder="Your Message" rows="4" class="input" required></textarea>
+      <button type="submit" class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-2 rounded-xl hover:scale-105 transition-transform">Send</button>
+      <input type="hidden" name="_captcha" value="false">
+    </form>
+  </section>
 
-          <div class="mt-8 flex items-center gap-4">
-            <a href="https://instagram.com/rohitbedse_" aria-label="Instagram"><i data-feather="instagram"></i></a>
-            <a href="https://github.com/rohitbedse" aria-label="GitHub"><i data-feather="github"></i></a>
-            <a href="https://www.linkedin.com/in/rohit-bedse-086b86262" aria-label="LinkedIn"><i data-feather="linkedin"></i></a>
-          </div>
-        </div>
-
-        <div class="md:w-1/2 flex justify-center">
-          <div class="rounded-full w-64 h-64 md:w-80 md:h-80 border-4 border-white shadow-2xl card-hover overflow-hidden">
-            <img id="avatar" src="https://portfolio-demo-seven-lyart.vercel.app/_astro/pfp.D8qT6-56_1YJ8bJ.webp" alt="Rohit" class="w-full h-full object-cover">
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ABOUT -->
-    <section id="about" class="page-section hidden-section py-16 bg-transparent">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-3xl font-bold text-center mb-8">Get to know me</h2>
-        <div class="max-w-4xl mx-auto glass rounded-xl p-8 shadow-md">
-          <p class="mb-4">Hi I'm <strong>Rohit Santosh Bedse</strong>, a Computer Engineering student passionate about Python, ML, and building product-ready solutions.</p>
-          <p class="mb-4">I enjoy working on retrieval systems, data pipelines, and applied ML projects. Connect on <a href="https://www.linkedin.com/in/rohit-bedse-086b86262" class="text-indigo-400">LinkedIn</a>.</p>
-          <div class="mt-6 flex gap-3">
-            <a href="#contact" class="neon px-4 py-2 rounded-md">Contact</a>
-            <a href="#projects" class="px-4 py-2 rounded-md border muted">Projects</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SKILLS -->
-    <section id="skills" class="page-section hidden-section py-16">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-3xl font-bold text-center mb-8">Skills</h2>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-          <div class="rounded-xl p-6 glass card-hover">
-            <i data-feather="code" class="w-8 h-8 mb-3"></i>
-            <h3 class="font-semibold">Python</h3>
-            <p class="muted">Advanced</p>
-          </div>
-          <div class="rounded-xl p-6 glass card-hover">
-            <i data-feather="database" class="w-8 h-8 mb-3"></i>
-            <h3 class="font-semibold">Data Science</h3>
-            <p class="muted">Intermediate</p>
-          </div>
-          <div class="rounded-xl p-6 glass card-hover">
-            <i data-feather="cpu" class="w-8 h-8 mb-3"></i>
-            <h3 class="font-semibold">Machine Learning</h3>
-            <p class="muted">Intermediate</p>
-          </div>
-          <div class="rounded-xl p-6 glass card-hover">
-            <i data-feather="layers" class="w-8 h-8 mb-3"></i>
-            <h3 class="font-semibold">Web Development</h3>
-            <p class="muted">Intermediate</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- PROJECTS -->
-    <section id="projects" class="page-section hidden-section py-16">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-3xl font-bold text-center mb-6">Recent Projects</h2>
-        <p class="text-center muted mb-6">Filter: <button data-filter="all" class="px-3 py-1 rounded-md border muted">All</button></p>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <!-- Project cards (dummy data) -->
-          <div class="rounded-xl overflow-hidden shadow-lg card-hover">
-            <img src="https://portfolio-demo-seven-lyart.vercel.app/_astro/retrieval-system.AFdTM7Ot_TA4Bl.webp" alt="" class="w-full h-48 object-cover">
-            <div class="p-6 bg-white/60 dark:bg-black/30">
-              <h3 class="text-xl font-semibold">Intelligent Retrieval System</h3>
-              <p class="muted mb-3">WebApp • NLP • FAISS</p>
-              <a href="https://mini-project-ugln.onrender.com/" class="text-indigo-600 hover:underline">View project</a>
-            </div>
-          </div>
-
-          <div class="rounded-xl overflow-hidden shadow-lg card-hover">
-            <img src="https://portfolio-demo-seven-lyart.vercel.app/_astro/Edu_Rohit.CeiWmwiD_1PEJks.webp" alt="" class="w-full h-48 object-cover">
-            <div class="p-6 bg-white/60 dark:bg-black/30">
-              <h3 class="text-xl font-semibold">E-learning Platform</h3>
-              <p class="muted mb-3">Website</p>
-              <a href="https://edu-rohit.vercel.app/" class="text-indigo-600 hover:underline">View project</a>
-            </div>
-          </div>
-
-          <div class="rounded-xl overflow-hidden shadow-lg card-hover">
-            <img src="https://portfolio-demo-seven-lyart.vercel.app/_astro/portfolio.D-Ptsq38_Zrkb9Y.webp" alt="" class="w-full h-48 object-cover">
-            <div class="p-6 bg-white/60 dark:bg-black/30">
-              <h3 class="text-xl font-semibold">Portfolio Website</h3>
-              <p class="muted mb-3">Website</p>
-              <a href="https://portfolio-demo-seven-lyart.vercel.app/" class="text-indigo-600 hover:underline">View project</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- BLOG -->
-    <section id="blog" class="page-section hidden-section py-16">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-3xl font-bold text-center mb-8">Latest Blog Posts</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <article class="rounded-xl shadow-lg overflow-hidden card-hover">
-            <img src="https://adminlte.io/wp-content/uploads/2022/02/tailwindcss-templates.png" class="w-full h-48 object-cover" alt="">
-            <div class="p-6 bg-white/60 dark:bg-black/30">
-              <span class="text-sm muted">6 min read</span>
-              <h3 class="text-xl font-bold my-2">Tailwind CSS: Beginner's Guide</h3>
-              <div class="flex items-center mt-4">
-                <img src="https://portfolio-demo-seven-lyart.vercel.app/_astro/pfp.D8qT6-56_1YJ8bJ.webp" class="w-8 h-8 rounded-full mr-2" alt="">
-                <div><p class="text-sm font-medium">Rohit Bedse</p><p class="text-xs muted">Sep 28, 2024</p></div>
-              </div>
-              <a href="#" class="inline-block mt-4 text-indigo-600 hover:underline">Read more</a>
-            </div>
-          </article>
-
-          <article class="rounded-xl shadow-lg overflow-hidden card-hover">
-            <img src="https://astro.build/og/astro.jpg" class="w-full h-48 object-cover" alt="">
-            <div class="p-6 bg-white/60 dark:bg-black/30">
-              <span class="text-sm muted">3 min read</span>
-              <h3 class="text-xl font-bold my-2">Discover Astro.js</h3>
-              <div class="flex items-center mt-4">
-                <img src="https://portfolio-demo-seven-lyart.vercel.app/_astro/pfp.D8qT6-56_1YJ8bJ.webp" class="w-8 h-8 rounded-full mr-2" alt="">
-                <div><p class="text-sm font-medium">Rohit Bedse</p><p class="text-xs muted">Oct 8, 2023</p></div>
-              </div>
-              <a href="#" class="inline-block mt-4 text-indigo-600 hover:underline">Read more</a>
-            </div>
-          </article>
-
-          <article class="rounded-xl shadow-lg overflow-hidden card-hover">
-            <img src="https://www.tooltester.com/wp-content/uploads/2015/08/creating-website-visuals-for-beginners.jpg" class="w-full h-48 object-cover" alt="">
-            <div class="p-6 bg-white/60 dark:bg-black/30">
-              <span class="text-sm muted">3 min read</span>
-              <h3 class="text-xl font-bold my-2">Optimizing Web Images</h3>
-              <div class="flex items-center mt-4">
-                <img src="https://portfolio-demo-seven-lyart.vercel.app/_astro/pfp.D8qT6-56_1YJ8bJ.webp" class="w-8 h-8 rounded-full mr-2" alt="">
-                <div><p class="text-sm font-medium">Rohit Bedse</p><p class="text-xs muted">Oct 7, 2023</p></div>
-              </div>
-              <a href="#" class="inline-block mt-4 text-indigo-600 hover:underline">Read more</a>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section id="contact" class="page-section hidden-section py-16">
-      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-3xl font-bold text-center mb-4">Get in touch</h2>
-        <p class="text-center muted mb-8">Love to hear from you — reach out about opportunities, collaborations, or a friendly hello.</p>
-
-        <div class="glass rounded-xl shadow-md p-8">
-          <!-- FormSubmit integration + simple validation -->
-          <form id="contactForm" action="https://formsubmit.co/youremail@example.com" method="POST" class="space-y-6">
-            <!-- replace the action email above with your real email -->
-            <input type="hidden" name="_subject" value="New message from portfolio">
-            <input type="hidden" name="_captcha" value="false">
-            <input type="hidden" name="_next" value="https://yourwebsite.com/thank-you.html">
-            <div>
-              <label class="block text-sm font-medium muted mb-1">Your Name</label>
-              <input name="name" required class="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700">
-            </div>
-            <div>
-              <label class="block text-sm font-medium muted mb-1">Email</label>
-              <input name="email" type="email" required class="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700">
-            </div>
-            <div>
-              <label class="block text-sm font-medium muted mb-1">Message</label>
-              <textarea name="message" rows="5" required class="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700"></textarea>
-            </div>
-            <button type="submit" class="w-full py-3 rounded-md neon">Send message</button>
-          </form>
-        </div>
-      </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="mt-20 bg-transparent py-12">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <p class="muted mb-4">A Python Developer with a passion for data science, machine learning, and deep learning — building intelligent solutions.</p>
-        <div class="flex justify-center gap-4 mb-4">
-          <a href="#"><i data-feather="instagram"></i></a>
-          <a href="#"><i data-feather="github"></i></a>
-          <a href="#"><i data-feather="linkedin"></i></a>
-        </div>
-        <p class="muted">Made with ❤️ by Rohit Bedse • <span id="year"></span></p>
-      </div>
-    </footer>
-  </main>
+  <!-- ⚡ Footer -->
+  <footer class="text-center py-6 border-t border-gray-300 dark:border-gray-700 mt-8">
+    <p>© <span id="year"></span> Rohit Bedse | All rights reserved.</p>
+  </footer>
 
   <script>
-    // ---------- Utility: theme detection & toggle ----------
-    const root = document.documentElement;
-    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const savedTheme = localStorage.getItem('site-theme'); // "dark" or "light" or null
-
-    function applyTheme(theme) {
-      if (theme === 'dark') {
-        document.documentElement.classList.add('dark');
-        document.documentElement.setAttribute('data-theme', 'dark');
-        // swap logos (if you have separate dark logo)
-        const logo = document.getElementById('logo');
-        if (logo && logo.dataset.dark) logo.src = logo.dataset.dark;
-        // avatar swap optionally
-        const avatar = document.getElementById('avatar');
-        if (avatar && avatar.dataset.dark) avatar.src = avatar.dataset.dark;
-        // update icon
-        const icon = document.getElementById('themeIcon');
-        if (icon) { icon.dataset.feather = 'sun'; feather.replace(); }
-      } else {
-        document.documentElement.classList.remove('dark');
-        document.documentElement.setAttribute('data-theme', 'light');
-        const logo = document.getElementById('logo');
-        if (logo && logo.dataset.light) logo.src = logo.dataset.light;
-        const avatar = document.getElementById('avatar');
-        if (avatar && avatar.dataset.light) avatar.src = avatar.dataset.light;
-        const icon = document.getElementById('themeIcon');
-        if (icon) { icon.dataset.feather = 'moon'; feather.replace(); }
-      }
-
-      // Update Vanta background color when theme changes
-      if (window._vantaEffect) {
-        if (theme === 'dark') {
-          window._vantaEffect.setOptions({ color: 0x8b5cf6, backgroundColor: 0x071226, points: 12, spacing: 18 });
-        } else {
-          window._vantaEffect.setOptions({ color: 0x6366f1, backgroundColor: 0xf8fafc, points: 12, spacing: 19 });
-        }
-      }
-    }
-
-    // initial theme
-    const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
-    applyTheme(initialTheme);
-
-    // theme toggle buttons
-    document.getElementById('themeBtn')?.addEventListener('click', () => {
-      const now = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
-      const next = now === 'dark' ? 'light' : 'dark';
-      localStorage.setItem('site-theme', next);
-      applyTheme(next);
-    });
-    document.getElementById('themeBtnMobile')?.addEventListener('click', () => {
-      document.getElementById('themeBtn')?.click();
-    });
-
-    // ---------- Vanta background init ----------
-    try {
-      window.addEventListener('load', () => {
-        // safety: destroy existing
-        if (window._vantaEffect) window._vantaEffect.destroy();
-        window._vantaEffect = VANTA.NET({
-          el: "#vanta-bg",
-          mouseControls: true,
-          touchControls: true,
-          gyroControls: false,
-          minHeight: 200.00,
-          minWidth: 200.00,
-          scale: 1.00,
-          scaleMobile: 1.00,
-          color: (document.documentElement.classList.contains('dark') ? 0x8b5cf6 : 0x6366f1),
-          backgroundColor: (document.documentElement.classList.contains('dark') ? 0x071226 : 0xf8fafc),
-          points: 12.00,
-          maxDistance: 24.00,
-          spacing: (document.documentElement.classList.contains('dark') ? 19.00 : 19.00)
-        });
-      });
-    } catch (e) {
-      console.warn('Vanta failed to init', e);
-    }
-
-    // ---------- Feather icons ----------
-    feather.replace();
-
-    // ---------- Mobile drawer ----------
-    const mobileOpen = document.getElementById('mobileOpen');
-    const mobileDrawer = document.getElementById('mobileDrawer');
-    mobileOpen?.addEventListener('click', () => {
-      mobileDrawer.classList.toggle('hidden');
-    });
-
-    // ---------- Hash-based "multipage" navigation ----------
-    const sections = document.querySelectorAll('.page-section');
-    const navLinks = document.querySelectorAll('.nav-link');
-    function showSectionFromHash() {
-      const hash = location.hash ? location.hash.substring(1) : 'home';
-      sections.forEach(s => {
-        if (s.id === hash) s.classList.remove('hidden-section'); else s.classList.add('hidden-section');
-      });
-      // update nav active
-      navLinks.forEach(a => {
-        a.classList.toggle('active', a.getAttribute('href') === '#' + hash);
-      });
-      // close mobile drawer after click
-      if (!mobileDrawer.classList.contains('hidden')) mobileDrawer.classList.add('hidden');
-    }
-    window.addEventListener('hashchange', showSectionFromHash);
-    // initial
-    if (!location.hash) location.hash = '#home';
-    showSectionFromHash();
-
-    // set current year
+    // 🧠 Auto Year
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // ---------- Contact: simple submit UI feedback ----------
-    const form = document.getElementById('contactForm');
-    const toast = document.getElementById('toast');
-    if (form) {
-      form.addEventListener('submit', (e) => {
-        // Let FormSubmit do the actual post; show toast and allow default submit.
-        // but prevent double-click
-        const btn = form.querySelector('button[type="submit"]');
-        if (btn) btn.disabled = true;
-        // show toast after a short delay (simulate success)
-        setTimeout(() => {
-          toast.style.display = 'block';
-          setTimeout(()=> { toast.style.display = 'none'; if (btn) btn.disabled = false; }, 3000);
-        }, 400);
-      });
+    // 🌗 Theme Logic
+    const toggle = document.getElementById('theme-toggle');
+    function setTheme(dark) {
+      document.documentElement.classList.toggle('dark', dark);
+      localStorage.setItem('theme', dark ? 'dark' : 'light');
     }
+    const stored = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    setTheme(stored === 'dark' || (!stored && prefersDark));
+    toggle.addEventListener('click', () => {
+      setTheme(!document.documentElement.classList.contains('dark'));
+    });
 
-    // ---------- Small enhancements: keyboard navigation to toggle theme with 't' ----------
-    window.addEventListener('keydown', (e) => {
-      if (e.key.toLowerCase() === 't') document.getElementById('themeBtn')?.click();
+    // 📰 Blog Data
+    const blogs = [
+      { title: "Understanding Linear Regression from Scratch", summary: "A step-by-step breakdown of simple linear regression and its OLS math.", link: "#" },
+      { title: "Exploring AI-Powered PDF QA Systems", summary: "How LLMs, embeddings, and FAISS make document intelligence easy.", link: "#" },
+      { title: "Building a Sentiment Analyzer with Transformers", summary: "Fine-tuning transformer models for NLP emotion detection.", link: "#" }
+    ];
+    const blogContainer = document.getElementById('blog-container');
+    blogContainer.innerHTML = blogs.map(post => `
+      <div class="glass p-6 rounded-2xl hover:scale-[1.03] transition-transform">
+        <h3 class="text-xl font-semibold mb-2">${post.title}</h3>
+        <p class="opacity-80 mb-3">${post.summary}</p>
+        <a href="${post.link}" class="text-indigo-500 font-medium hover:underline">Read More →</a>
+      </div>
+    `).join('');
+
+    // 🔗 Active Link Highlight
+    const navLinks = document.querySelectorAll('.nav-link');
+    window.addEventListener('scroll', () => {
+      let fromTop = window.scrollY + 150;
+      navLinks.forEach(link => {
+        const section = document.querySelector(link.getAttribute('href'));
+        if (section && section.offsetTop <= fromTop && section.offsetTop + section.offsetHeight > fromTop) {
+          link.classList.add('active-link');
+        } else {
+          link.classList.remove('active-link');
+        }
+      });
     });
   </script>
 </body>
