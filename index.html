@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Rohit Bedse | Portfolio</title>
 
-  <!-- Fonts -->
+  <!-- Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -19,17 +19,9 @@
         extend: {
           fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
           colors: {
-            brand: {
-              50: '#eef2ff',
-              100: '#e0e7ff',
-              500: '#6366f1',
-              600: '#5458ee',
-              700: '#4f46e5'
-            }
+            brand: { 500: '#6366f1', 600: '#5458ee', 700: '#4f46e5' }
           },
-          boxShadow: {
-            glow: '0 10px 30px -12px rgba(99, 102, 241, .45)'
-          },
+          boxShadow: { glow: '0 10px 30px -12px rgba(99, 102, 241, .45)' },
           keyframes: {
             float: { '0%,100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-12px)' } },
             blob: {
@@ -37,14 +29,15 @@
               '33%': { transform: 'translate(10px,-20px) scale(1.05)' },
               '66%': { transform: 'translate(-15px,10px) scale(0.98)' }
             },
-            shimmer: { '0%': { backgroundPosition: '0% 50%' }, '100%': { backgroundPosition: '200% 50%' } },
-            fadeUp: { '0%': { opacity: 0, transform: 'translateY(18px) scale(0.98)' }, '100%': { opacity: 1, transform: 'translateY(0) scale(1)' } }
+            fadeUp: { '0%': { opacity: 0, transform: 'translateY(18px) scale(.98)' }, '100%': { opacity: 1, transform: 'translateY(0) scale(1)' } },
+            shine: { '0%': { transform: 'translateX(-150%)' }, '100%': { transform: 'translateX(150%)' } },
+            kenburns: { '0%': { transform: 'scale(1.02)' }, '100%': { transform: 'scale(1.08)' } }
           },
           animation: {
             float: 'float 6s ease-in-out infinite',
             blob: 'blob 18s ease-in-out infinite',
-            shimmer: 'shimmer 2.5s linear infinite',
-            fadeUp: 'fadeUp .7s ease-out forwards'
+            fadeUp: 'fadeUp .7s ease-out forwards',
+            kenburns: 'kenburns 9s ease-in-out infinite alternate'
           }
         }
       }
@@ -52,29 +45,38 @@
   </script>
 
   <style>
-    /* Smooth color/fg transition and nice inputs */
+    /* Smooth theme transitions + inputs */
     body { transition: background-color .35s ease, color .35s ease; }
+    section { min-height: 100vh; padding-top: 6rem; padding-bottom: 4rem; }
     .glass { background: rgba(255,255,255,0.08); backdrop-filter: blur(14px); border: 1px solid rgba(255,255,255,0.12); }
     .input { padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(148,163,184,.35); outline: none; background-color: transparent; width: 100%; transition: border-color .2s, box-shadow .2s; }
     .input:focus { border-color: #6366f1; box-shadow: 0 0 0 4px rgba(99,102,241,.15); }
-    section { min-height: 100vh; padding-top: 6rem; padding-bottom: 4rem; }
     .active-link { color: #6366f1; font-weight: 600; }
+
+    /* Light-mode texture (grid + gentle noise) */
     .bg-grid {
       background-image:
-        radial-gradient(circle at 1px 1px, rgba(100,116,139,.10) 1px, transparent 0),
-        radial-gradient(circle at 1px 1px, rgba(148,163,184,.08) 1px, transparent 0);
-      background-size: 24px 24px;
-      background-position: 0 0, 12px 12px;
+        radial-gradient(circle at 1px 1px, rgba(2,6,23,.08) 1px, transparent 0),
+        radial-gradient(circle at 1px 1px, rgba(2,6,23,.06) 1px, transparent 0);
+      background-size: 22px 22px, 22px 22px;
+      background-position: 0 0, 11px 11px;
     }
+    /* Subtle SVG noise overlay */
+    .noise-overlay { mix-blend: multiply; }
+
+    /* Project card helpers */
+    .card-tilt { transform-style: preserve-3d; transform: perspective(900px) rotateX(0) rotateY(0); transition: transform .2s ease; }
+    .reveal { opacity: 0; transform: translateY(18px) scale(.98); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.show { opacity: 1; transform: translateY(0) scale(1); }
+
     .btn-shimmer {
       background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899, #6366f1);
       background-size: 200% 100%;
       color: white;
       animation: shimmer 3s linear infinite;
     }
-    .card-tilt { transform-style: preserve-3d; transform: perspective(800px) rotateX(0) rotateY(0); transition: transform .2s ease; }
-    .reveal { opacity: 0; transform: translateY(18px) scale(.98); transition: opacity .6s ease, transform .6s ease; }
-    .reveal.show { opacity: 1; transform: translateY(0) scale(1); }
+    @keyframes shimmer { 0% { background-position: 0% 50% } 100% { background-position: 200% 50% } }
+
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
     }
@@ -82,12 +84,21 @@
 </head>
 
 <body class="bg-white text-slate-900 dark:bg-[#0b1020] dark:text-white antialiased selection:bg-indigo-500/20 selection:text-indigo-600 dark:selection:text-indigo-300">
-  <!-- Background grid + gradient blobs -->
-  <div class="fixed inset-0 -z-10 bg-grid opacity-60 dark:opacity-[.25]"></div>
+  <!-- Textured background for LIGHT mode -->
+  <div class="fixed inset-0 -z-20 bg-grid opacity-[.7]"></div>
+
+  <!-- Subtle noise overlay (both modes, lighter on dark) -->
+  <svg class="fixed inset-0 -z-10 pointer-events-none opacity-[.06] dark:opacity-[.04] noise-overlay" xmlns="http://www.w3.org/2000/svg">
+    <filter id="noiseFilter">
+      <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" stitchTiles="stitch"/>
+    </filter>
+    <rect width="100%" height="100%" filter="url(#noiseFilter)"></rect>
+  </svg>
+
+  <!-- Soft gradient blobs -->
   <div class="pointer-events-none fixed inset-0 -z-10 [mask-image:radial-gradient(ellipse_at_center,black,transparent_70%)]">
-    <div class="absolute -top-24 -left-24 h-[38rem] w-[38rem] rounded-full blur-3xl opacity-30 dark:opacity-25 bg-gradient-to-tr from-indigo-500 via-violet-500 to-fuchsia-500 animate-blob"></div>
-    <div class="absolute top-40 -right-24 h-[28rem] w-[28rem] rounded-full blur-3xl opacity-25 dark:opacity-20 bg-gradient-to-tr from-sky-400 via-cyan-400 to-emerald-400 animate-blob [animation-delay:4s]"></div>
-    <div class="absolute bottom-0 left-1/2 -translate-x-1/2 h-[24rem] w-[24rem] rounded-full blur-3xl opacity-20 bg-gradient-to-tr from-rose-400 via-pink-500 to-fuchsia-500 animate-blob [animation-delay:8s]"></div>
+    <div class="absolute -top-24 -left-24 h-[36rem] w-[36rem] rounded-full blur-3xl opacity-25 dark:opacity-25 bg-gradient-to-tr from-indigo-500 via-violet-500 to-fuchsia-500 animate-blob"></div>
+    <div class="absolute top-40 -right-24 h-[28rem] w-[28rem] rounded-full blur-3xl opacity-20 dark:opacity-20 bg-gradient-to-tr from-sky-400 via-cyan-400 to-emerald-400 animate-blob [animation-delay:4s]"></div>
   </div>
 
   <!-- Scroll progress bar -->
@@ -98,9 +109,13 @@
   <!-- Navbar -->
   <header class="fixed w-full top-0 left-0 z-50 bg-white/70 dark:bg-[#0f152b]/70 backdrop-blur-lg border-b border-slate-200/60 dark:border-white/10">
     <div class="max-w-6xl mx-auto flex justify-between items-center px-4 md:px-6 py-3">
-      <a href="#home" class="flex items-center gap-2 group">
-        <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png" class="w-8 h-8" alt="Logo">
-        <span class="font-extrabold text-xl bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent group-hover:opacity-80 transition-opacity">Rohit Bedse</span>
+      <a href="#home" class="flex items-center gap-3 group">
+        <!-- Your photo as the logo -->
+        <!-- Save as images/rohit-avatar.jpg or change src below -->
+        <img src="images/rohit-avatar.jpg" alt="Logo" class="w-9 h-9 rounded-full ring-2 ring-indigo-500/15 object-cover">
+        <span class="font-extrabold text-xl bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent group-hover:opacity-80 transition-opacity">
+          Rohit Bedse
+        </span>
       </a>
 
       <nav class="hidden md:flex items-center gap-6 font-medium">
@@ -113,7 +128,7 @@
       <div class="flex items-center gap-2">
         <button id="theme-toggle" class="p-2 rounded-lg hover:bg-slate-200/60 dark:hover:bg-white/10" aria-label="Toggle theme">
           <span id="icon-moon" class="hidden">🌙</span>
-          <span id="icon-sun" class="">☀️</span>
+          <span id="icon-sun">☀️</span>
         </button>
         <button id="menu-toggle" class="md:hidden p-2 rounded-lg hover:bg-slate-200/60 dark:hover:bg-white/10" aria-label="Toggle menu" aria-expanded="false">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
@@ -122,7 +137,7 @@
     </div>
 
     <!-- Mobile menu -->
-    <div id="mobile-menu" class="md:hidden hidden border-t border-slate-200/60 dark:border-white/10 bg-white/80 dark:bg-[#0f152b]/80 backdrop-blur-lg">
+    <div id="mobile-menu" class="md:hidden hidden border-t border-slate-200/60 dark:border-white/10 bg-white/85 dark:bg-[#0f152b]/80 backdrop-blur-lg">
       <div class="px-6 py-4 grid gap-3">
         <a href="#home" class="nav-link block py-2 rounded-lg hover:bg-slate-200/60 dark:hover:bg-white/10">Home</a>
         <a href="#projects" class="nav-link block py-2 rounded-lg hover:bg-slate-200/60 dark:hover:bg-white/10">Projects</a>
@@ -146,28 +161,12 @@
         <span class="opacity-80">Python Developer & Data Enthusiast</span> — building intelligent systems with AI and ML.
       </p>
       <p class="text-base text-slate-600 dark:text-slate-300 mb-8">
-        <span class="opacity-80">I love</span> <span id="typed-roles" class="font-semibold text-indigo-500"></span>
-        <span class="opacity-80"> to create useful things.</span>
+        Crafting solutions with LLMs, RAG, and clean data pipelines.
       </p>
 
       <div class="flex flex-wrap items-center justify-center gap-3">
         <a href="#projects" class="px-6 py-3 rounded-xl btn-shimmer shadow-glow hover:scale-[1.02] active:scale-[.99] transition-transform">View Projects</a>
         <a href="#contact" class="px-6 py-3 rounded-xl border border-slate-300 dark:border-white/10 hover:bg-slate-200/60 dark:hover:bg-white/10 transition-colors">Get in Touch</a>
-      </div>
-
-      <div class="flex items-center justify-center gap-4 mt-6 opacity-90">
-        <!-- GitHub -->
-        <a href="https://github.com/" target="_blank" class="p-2 rounded-lg hover:bg-slate-200/60 dark:hover:bg-white/10 transition-colors" aria-label="GitHub">
-          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5A12 12 0 0 0 0 12.7c0 5.4 3.4 10 8.2 11.6.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.5-1.5-1.9-1.5-1.9-1.2-.8.1-.8.1-.8 1.3.1 2 .2 2.8 1.4 1.1 1.9 3 1.3 3.7 1 .1-.8.5-1.3.8-1.6-2.7-.3-5.6-1.4-5.6-6.2 0-1.3.5-2.5 1.3-3.4-.2-.3-.6-1.7.1-3.5 0 0 1-.3 3.5 1.3 1-.3 2-.4 3-.4s2 .1 3 .4c2.5-1.6 3.5-1.3 3.5-1.3.7 1.8.3 3.2.1 3.5.8.9 1.3 2 1.3 3.4 0 4.8-2.9 5.9-5.6 6.2.5.4.9 1.2.9 2.4v3.5c0 .3.2.7.8.6A12.1 12.1 0 0 0 24 12.7 12 12 0 0 0 12 .5z"/></svg>
-        </a>
-        <!-- LinkedIn -->
-        <a href="https://linkedin.com/" target="_blank" class="p-2 rounded-lg hover:bg-slate-200/60 dark:hover:bg-white/10 transition-colors" aria-label="LinkedIn">
-          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 23.5h4V7.5h-4v16zM8.5 7.5h3.8v2.2h.1c.5-1 1.9-2.2 3.9-2.2 4.2 0 5 2.8 5 6.4v9.6h-4v-8.5c0-2 0-4.5-2.8-4.5s-3.2 2.2-3.2 4.4v8.6h-4V7.5z"/></svg>
-        </a>
-        <!-- Email -->
-        <a href="mailto:youremail@gmail.com" class="p-2 rounded-lg hover:bg-slate-200/60 dark:hover:bg-white/10 transition-colors" aria-label="Email">
-          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M12 13.5 2 6h20l-10 7.5Zm0 2.5L2 8v10h20V8l-10 8Z"/></svg>
-        </a>
       </div>
 
       <div class="mt-14">
@@ -176,65 +175,86 @@
     </div>
   </section>
 
-  <!-- Projects -->
+  <!-- Projects with images + animations -->
   <section id="projects" class="px-6 max-w-6xl mx-auto text-center scroll-mt-24">
     <h2 class="text-3xl md:text-4xl font-bold mb-3 reveal">My Projects</h2>
-    <p class="max-w-2xl mx-auto text-slate-600 dark:text-slate-300 mb-10 reveal">A few things I’ve built recently.</p>
+    <p class="max-w-2xl mx-auto text-slate-600 dark:text-slate-300 mb-10 reveal">Some highlights with animated previews.</p>
 
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
       <!-- Project card 1 -->
-      <div class="group p-6 rounded-2xl bg-white/70 dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:shadow-glow transition-all hover:-translate-y-1 card-tilt reveal">
-        <div class="flex items-center justify-between mb-3">
-          <h3 class="text-xl font-semibold">Intelligent PDF QA System</h3>
-          <span class="px-2 py-1 text-xs rounded-full bg-indigo-500/10 text-indigo-600 dark:text-indigo-300 border border-indigo-500/20">LLM</span>
+      <article class="group p-5 rounded-2xl bg-white/70 dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:shadow-glow transition-all hover:-translate-y-1 card-tilt reveal">
+        <div class="relative aspect-[16/10] overflow-hidden rounded-xl border border-slate-200/70 dark:border-white/10">
+          <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=60" alt="Project preview" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+          <!-- Shine sweep -->
+          <span class="pointer-events-none absolute inset-0 [background:linear-gradient(120deg,transparent_0%,rgba(255,255,255,.5)_50%,transparent_100%)] translate-x-[-150%] group-hover:animate-[shine_1.2s_ease]"></span>
+          <!-- Gradient for text if needed -->
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
         </div>
-        <p class="opacity-80 text-left">Gemini LLM + FAISS + LangChain + Streamlit to answer queries from uploaded PDFs.</p>
-        <div class="flex gap-2 mt-4 flex-wrap">
-          <span class="px-2 py-1 text-xs rounded-md bg-slate-100 dark:bg-white/10">FAISS</span>
-          <span class="px-2 py-1 text-xs rounded-md bg-slate-100 dark:bg-white/10">LangChain</span>
-          <span class="px-2 py-1 text-xs rounded-md bg-slate-100 dark:bg-white/10">Streamlit</span>
+        <div class="text-left mt-4">
+          <div class="flex items-center justify-between mb-1">
+            <h3 class="text-lg font-semibold">Intelligent PDF QA System</h3>
+            <span class="px-2 py-1 text-xs rounded-full bg-indigo-500/10 text-indigo-600 dark:text-indigo-300 border border-indigo-500/20">LLM</span>
+          </div>
+          <p class="opacity-80">Gemini LLM + FAISS + LangChain + Streamlit to answer queries from uploaded PDFs.</p>
+          <div class="flex gap-2 mt-3 flex-wrap">
+            <span class="px-2 py-1 text-xs rounded-md bg-slate-100 dark:bg-white/10">FAISS</span>
+            <span class="px-2 py-1 text-xs rounded-md bg-slate-100 dark:bg-white/10">LangChain</span>
+            <span class="px-2 py-1 text-xs rounded-md bg-slate-100 dark:bg-white/10">Streamlit</span>
+          </div>
+          <div class="flex items-center justify-between mt-4">
+            <a href="#" class="text-indigo-600 dark:text-indigo-400 font-medium hover:underline">Live →</a>
+            <a href="#" class="text-slate-600 dark:text-slate-300 hover:text-indigo-500">Code</a>
+          </div>
         </div>
-        <div class="flex items-center justify-between mt-5">
-          <a href="#" class="text-indigo-600 dark:text-indigo-400 font-medium hover:underline">Live →</a>
-          <a href="#" class="text-slate-600 dark:text-slate-300 hover:text-indigo-500">Code</a>
-        </div>
-      </div>
+      </article>
 
       <!-- Project card 2 -->
-      <div class="group p-6 rounded-2xl bg-white/70 dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:shadow-glow transition-all hover:-translate-y-1 card-tilt reveal">
-        <div class="flex items-center justify-between mb-3">
-          <h3 class="text-xl font-semibold">Sentiment Analyzer</h3>
-          <span class="px-2 py-1 text-xs rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-300 border border-emerald-500/20">NLP</span>
+      <article class="group p-5 rounded-2xl bg-white/70 dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:shadow-glow transition-all hover:-translate-y-1 card-tilt reveal">
+        <div class="relative aspect-[16/10] overflow-hidden rounded-xl border border-slate-200/70 dark:border-white/10">
+          <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=60" alt="Project preview" class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105 group-hover:saturate-125">
+          <span class="pointer-events-none absolute inset-0 [background:linear-gradient(120deg,transparent_0%,rgba(255,255,255,.5)_50%,transparent_100%)] translate-x-[-150%] group-hover:animate-[shine_1.2s_ease]"></span>
         </div>
-        <p class="opacity-80 text-left">Transformer-based model fine-tuned to classify sentiment with high accuracy.</p>
-        <div class="flex gap-2 mt-4 flex-wrap">
-          <span class="px-2 py-1 text-xs rounded-md bg-slate-100 dark:bg-white/10">Transformers</span>
-          <span class="px-2 py-1 text-xs rounded-md bg-slate-100 dark:bg-white/10">PyTorch</span>
-          <span class="px-2 py-1 text-xs rounded-md bg-slate-100 dark:bg-white/10">Datasets</span>
+        <div class="text-left mt-4">
+          <div class="flex items-center justify-between mb-1">
+            <h3 class="text-lg font-semibold">Sentiment Analyzer</h3>
+            <span class="px-2 py-1 text-xs rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-300 border border-emerald-500/20">NLP</span>
+          </div>
+          <p class="opacity-80">Transformer-based model fine-tuned to classify sentiment with high accuracy.</p>
+          <div class="flex gap-2 mt-3 flex-wrap">
+            <span class="px-2 py-1 text-xs rounded-md bg-slate-100 dark:bg-white/10">Transformers</span>
+            <span class="px-2 py-1 text-xs rounded-md bg-slate-100 dark:bg-white/10">PyTorch</span>
+            <span class="px-2 py-1 text-xs rounded-md bg-slate-100 dark:bg-white/10">Datasets</span>
+          </div>
+          <div class="flex items-center justify-between mt-4">
+            <a href="#" class="text-indigo-600 dark:text-indigo-400 font-medium hover:underline">Live →</a>
+            <a href="#" class="text-slate-600 dark:text-slate-300 hover:text-indigo-500">Code</a>
+          </div>
         </div>
-        <div class="flex items-center justify-between mt-5">
-          <a href="#" class="text-indigo-600 dark:text-indigo-400 font-medium hover:underline">Live →</a>
-          <a href="#" class="text-slate-600 dark:text-slate-300 hover:text-indigo-500">Code</a>
-        </div>
-      </div>
+      </article>
 
       <!-- Project card 3 -->
-      <div class="group p-6 rounded-2xl bg-white/70 dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:shadow-glow transition-all hover:-translate-y-1 card-tilt reveal">
-        <div class="flex items-center justify-between mb-3">
-          <h3 class="text-xl font-semibold">Bengaluru House Price Prediction</h3>
-          <span class="px-2 py-1 text-xs rounded-full bg-pink-500/10 text-pink-600 dark:text-pink-300 border border-pink-500/20">ML</span>
+      <article class="group p-5 rounded-2xl bg-white/70 dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:shadow-glow transition-all hover:-translate-y-1 card-tilt reveal">
+        <div class="relative aspect-[16/10] overflow-hidden rounded-xl border border-slate-200/70 dark:border-white/10">
+          <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1200&q=60" alt="Project preview" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+          <span class="pointer-events-none absolute inset-0 [background:linear-gradient(120deg,transparent_0%,rgba(255,255,255,.5)_50%,transparent_100%)] translate-x-[-150%] group-hover:animate-[shine_1.2s_ease]"></span>
         </div>
-        <p class="opacity-80 text-left">Regression model to predict housing prices using engineered features.</p>
-        <div class="flex gap-2 mt-4 flex-wrap">
-          <span class="px-2 py-1 text-xs rounded-md bg-slate-100 dark:bg-white/10">Scikit-learn</span>
-          <span class="px-2 py-1 text-xs rounded-md bg-slate-100 dark:bg-white/10">Pandas</span>
-          <span class="px-2 py-1 text-xs rounded-md bg-slate-100 dark:bg-white/10">NumPy</span>
+        <div class="text-left mt-4">
+          <div class="flex items-center justify-between mb-1">
+            <h3 class="text-lg font-semibold">Bengaluru House Price Prediction</h3>
+            <span class="px-2 py-1 text-xs rounded-full bg-pink-500/10 text-pink-600 dark:text-pink-300 border border-pink-500/20">ML</span>
+          </div>
+          <p class="opacity-80">Regression model to predict housing prices using engineered features.</p>
+          <div class="flex gap-2 mt-3 flex-wrap">
+            <span class="px-2 py-1 text-xs rounded-md bg-slate-100 dark:bg-white/10">Scikit-learn</span>
+            <span class="px-2 py-1 text-xs rounded-md bg-slate-100 dark:bg-white/10">Pandas</span>
+            <span class="px-2 py-1 text-xs rounded-md bg-slate-100 dark:bg-white/10">NumPy</span>
+          </div>
+          <div class="flex items-center justify-between mt-4">
+            <a href="#" class="text-indigo-600 dark:text-indigo-400 font-medium hover:underline">Live →</a>
+            <a href="#" class="text-slate-600 dark:text-slate-300 hover:text-indigo-500">Code</a>
+          </div>
         </div>
-        <div class="flex items-center justify-between mt-5">
-          <a href="#" class="text-indigo-600 dark:text-indigo-400 font-medium hover:underline">Live →</a>
-          <a href="#" class="text-slate-600 dark:text-slate-300 hover:text-indigo-500">Code</a>
-        </div>
-      </div>
+      </article>
     </div>
   </section>
 
@@ -242,7 +262,6 @@
   <section id="blog" class="px-6 max-w-6xl mx-auto text-center scroll-mt-24">
     <h2 class="text-3xl md:text-4xl font-bold mb-3 reveal">Latest Blog Posts</h2>
     <p class="max-w-2xl mx-auto text-slate-600 dark:text-slate-300 mb-10 reveal">Things I’ve been writing.</p>
-
     <div id="blog-container" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
       <!-- Injected via JS -->
     </div>
@@ -281,7 +300,6 @@
     const themeToggle = document.getElementById('theme-toggle');
     const iconMoon = document.getElementById('icon-moon');
     const iconSun = document.getElementById('icon-sun');
-
     function updateThemeIcon() {
       const isDark = root.classList.contains('dark');
       iconMoon.classList.toggle('hidden', !isDark);
@@ -315,23 +333,6 @@
       progress.style.width = width + '%';
     }
     window.addEventListener('scroll', updateProgress); updateProgress();
-
-    // Typed roles
-    const roles = ['building AI apps', 'LLMs + RAG', 'clean data pipelines', 'ML systems'];
-    const typedEl = document.getElementById('typed-roles');
-    let r = 0, c = 0, deleting = false;
-    function typeLoop() {
-      const role = roles[r % roles.length];
-      if (!deleting) {
-        typedEl.textContent = role.slice(0, ++c);
-        if (c === role.length) { deleting = true; setTimeout(typeLoop, 1200); return; }
-      } else {
-        typedEl.textContent = role.slice(0, --c);
-        if (c === 0) { deleting = false; r++; }
-      }
-      setTimeout(typeLoop, deleting ? 40 : 70);
-    }
-    typeLoop();
 
     // Inject blog posts
     const blogs = [
@@ -381,10 +382,10 @@
         const x = e.clientX - rect.left, y = e.clientY - rect.top;
         const rotateY = ((x / rect.width) - 0.5) * 8;
         const rotateX = ((y / rect.height) - 0.5) * -8;
-        card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(0)`;
+        card.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(0)`;
       });
       card.addEventListener('mouseleave', () => {
-        card.style.transform = 'perspective(800px) rotateX(0) rotateY(0)';
+        card.style.transform = 'perspective(900px) rotateX(0) rotateY(0)';
       });
     });
 
